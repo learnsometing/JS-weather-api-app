@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import getCurrentForecast from "../util/getCurrentForecast";
+import request from "../util/request";
+
 import SearchFormStyles from "./searchForm.module.css"
 
 export const UnitButtons = ({ onClick, activeBtn }) => {
@@ -31,31 +34,6 @@ export const UnitButtons = ({ onClick, activeBtn }) => {
   );
 };
 
-export const createRequest = (city, selectedUnit) => {
-  const API_KEY = process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY;
-  const options = {
-    method: 'GET',
-    mode: 'cors'
-  };
-  return new Request(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${selectedUnit}&appid=${API_KEY}`,
-    options
-  );
-}
-
-export const completeRequest = async (request, setCF) => {
-  const response = await fetch(request);
-
-  if (!response.ok) {
-    throw new Error('Nothing to geocode');
-  }
-
-  response.json().then(
-    (json) => { setCF(json) },
-    function rejected(err) { console.error(err) }
-  );
-}
-
 export const PureSearchForm = (props) => {
   const [city, setCity] = useState('');
   const [selectedUnit, setSelectedUnit] = useState('imperial');
@@ -65,9 +43,11 @@ export const PureSearchForm = (props) => {
   }
 
   const handleSubmit = (event) => {
-    const currentForecastReq = createRequest(city, selectedUnit);
-    props.completeRequest(currentForecastReq, props.setCF);
-
+    const req = request(city, selectedUnit);
+    getCurrentForecast(req).then(
+      json => props.setCF(json),
+      err => console.error(err)
+    );
     event.preventDefault();
   }
 
@@ -95,5 +75,5 @@ export const PureSearchForm = (props) => {
 }
 
 export default (props) => (
-  <PureSearchForm completeRequest={completeRequest} setCF={props.setCF} />
+  <PureSearchForm setCF={props.setCF} />
 );

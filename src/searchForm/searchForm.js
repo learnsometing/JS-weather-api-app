@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import ReactDOM from "react-dom";
 
 import SearchFormStyles from "./searchForm.module.css"
 
@@ -32,12 +31,28 @@ export const UnitButtons = ({ onClick, activeBtn }) => {
   );
 };
 
-export const createRequest = (city, selectedUnit, options = {}) => {
+export const createRequest = (city, selectedUnit) => {
   const API_KEY = process.env.REACT_APP_OPEN_WEATHER_MAP_API_KEY;
-
+  const options = {
+    method: 'GET',
+    mode: 'cors'
+  };
   return new Request(
     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${selectedUnit}&appid=${API_KEY}`,
     options
+  );
+}
+
+export const completeRequest = async (request, setCF) => {
+  const response = await fetch(request);
+
+  if (!response.ok) {
+    throw new Error('Nothing to geocode');
+  }
+
+  response.json().then(
+    (json) => { setCF(json) },
+    function rejected(err) { console.error(err) }
   );
 }
 
@@ -50,25 +65,9 @@ export const PureSearchForm = (props) => {
   }
 
   const handleSubmit = (event) => {
-    const options = {
-      method: 'GET',
-      mode: 'cors'
-    };
+    const currentForecastReq = createRequest(city, selectedUnit);
+    props.completeRequest(currentForecastReq, props.setCF);
 
-    const request = props.createRequest(city, selectedUnit, options);
-
-    fetch(request)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Nothing to geocode');
-        }
-
-        return response.json();
-      })
-      .then(
-        function fullfilled(json) { props.setCF(json) },
-        function rejected(err) { console.log(err) }
-      );
     event.preventDefault();
   }
 
@@ -96,5 +95,5 @@ export const PureSearchForm = (props) => {
 }
 
 export default (props) => (
-  <PureSearchForm createRequest={createRequest} setCF={props.setCF} />
+  <PureSearchForm completeRequest={completeRequest} setCF={props.setCF} />
 );

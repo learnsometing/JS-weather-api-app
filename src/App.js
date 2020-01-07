@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
 import SearchForm from "./searchForm/searchForm";
+import WeatherTable from "./weatherTable/weatherTable";
 
 function App() {
   const [currentForecast, setCurrentForecast] = useState(null);
-  console.log(currentForecast);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -16,8 +17,7 @@ function App() {
         <div className="main-container">
           <h1>Weather Forecast</h1>
           <SearchForm setCF={setCurrentForecast} />
-          <div id="current-forecast">
-          </div>
+          <WeatherTable currentForecast={currentForecast} />
         </div>
       </main>
     </div>

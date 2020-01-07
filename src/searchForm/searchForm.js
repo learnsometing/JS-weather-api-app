@@ -46,7 +46,10 @@ export const PureSearchForm = (props) => {
     const req = request(city, selectedUnit);
     getCurrentForecast(req).then(
       json => props.setCF(json),
-      err => console.error(err)
+      err => {
+        console.error(err)
+        props.setCF(null);
+      }
     );
     event.preventDefault();
   }
@@ -58,7 +61,7 @@ export const PureSearchForm = (props) => {
           type="text"
           value={city}
           onChange={handleChange}
-          placeholder="Your City Name"
+          placeholder="City, Country"
           className={SearchFormStyles.textInput} />
         <div className={SearchFormStyles.buttonGroup}>
           <UnitButtons onClick={setSelectedUnit} activeBtn={selectedUnit} />

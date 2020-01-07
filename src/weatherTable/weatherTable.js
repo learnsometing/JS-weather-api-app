@@ -1,5 +1,7 @@
 import React from "react";
 
+import WeatherTableStyles from "../weatherTable/weatherTable.module.css";
+
 export default (props) => {
   let content = null;
   if (props.currentForecast) {
@@ -34,38 +36,37 @@ export default (props) => {
     const now = new Date(Date.now());
 
     content =
-      <div>
+      <div className={WeatherTableStyles.container}>
         <h2>Weather for {name}, {country}</h2>
-        <div>
-          <span>{temp}&#176;</span>
-          <span>feels like</span>
-          <span>{feelsLike}</span>
+        <div className={WeatherTableStyles.tempContainer}>
+          <span className={WeatherTableStyles.tempSpan}>
+            <strong>{temp}&#176; </strong> feels like <strong> {feelsLike}&#176;</strong></span>
         </div>
-        <div>
-          <span>{description}</span>
-          <span>{now.toLocaleTimeString()}, {now.toLocaleDateString()}</span>
+        <div className={WeatherTableStyles.descriptionContainer}>
+          <span className={WeatherTableStyles.description}>{description}</span>
+          <span className={WeatherTableStyles.currentDate}>{now.toLocaleTimeString()}, {now.toLocaleDateString()}</span>
         </div>
         <table>
           <tbody>
             <tr>
-              <th>Wind</th>
-              <td>{windSpeed} m/h</td>
+              <th className={WeatherTableStyles.odd}>Wind</th>
+              <td className={WeatherTableStyles.odd}>{windSpeed} m/h</td>
             </tr>
             <tr>
               <th>Pressure</th>
               <td>{presure} hpa</td>
             </tr>
             <tr>
-              <th>Humid</th>
-              <td>{humidity} %</td>
+              <th className={WeatherTableStyles.odd}>Humid</th>
+              <td className={WeatherTableStyles.odd}>{humidity} %</td>
             </tr>
             <tr>
               <th>Sunrise</th>
               <td>{sunrise}</td>
             </tr>
             <tr>
-              <th>Sunset</th>
-              <td>{sunset}</td>
+              <th className={WeatherTableStyles.odd}>Sunset</th>
+              <td className={WeatherTableStyles.odd}>{sunset}</td>
             </tr>
             <tr>
               <th>Coords</th>

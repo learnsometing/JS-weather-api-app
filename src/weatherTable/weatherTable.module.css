@@ -1,0 +1,52 @@
+.container {
+  width: 50%;
+  padding: 1em;
+}
+
+.tempContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.descriptionContainer {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 1em 0;
+}
+
+.tempSpan {
+  width: 65%;
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 24px;
+}
+
+.description {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0 0.25em;
+}
+
+.currentDate {
+  font-size: 22px;
+}
+
+table {
+  width: 100%;
+  border: 1px solid black;
+}
+
+tbody {
+  height: 100%;
+  width: 100;
+}
+
+tr, td{
+  font-size: 18px;
+}
+
+.odd{
+  background-color: rgb(207, 207, 207);
+}
+

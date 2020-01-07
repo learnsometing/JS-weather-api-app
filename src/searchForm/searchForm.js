@@ -47,6 +47,7 @@ export const PureSearchForm = (props) => {
     getCurrentForecast(req).then(
       json => props.setCF(json),
       err => {
+        alert('Please enter a city, followed by its country code');
         console.error(err)
         props.setCF(null);
       }
